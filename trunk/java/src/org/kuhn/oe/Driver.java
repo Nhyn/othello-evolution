@@ -8,7 +8,7 @@ import org.kuhn.oe.breeder.Breeder;
 import org.kuhn.oe.breeder.CloneBreeder;
 import org.kuhn.oe.breeder.SingleMutationBreeder;
 import org.kuhn.oe.game.Board;
-import org.kuhn.oe.game.Game;
+import org.kuhn.oe.game.GameExecutor;
 import org.kuhn.oe.game.PlayExecutor;
 import org.kuhn.oe.game.Player;
 import org.kuhn.oe.game.Score;
@@ -26,6 +26,10 @@ import org.kuhn.oe.strategy.Strategy;
 
 
 public class Driver {
+	
+	public static void main(String[] args) {
+		new Driver().game();
+	}
 	
 	public void game() {
 		
@@ -60,6 +64,9 @@ public class Driver {
 		
 		Random random = new Random();
 		
+		GameExecutor game = new GameExecutor();
+		Board board = new Board();
+		
 		for (int j = 1; j <= 100; ++j) {
 //			System.out.println("ROUND " + j + " with " + players.size() + " players");
 			
@@ -71,8 +78,7 @@ public class Driver {
 					Player p1 = players.get(random.nextInt(players.size()));
 					if (p0 == p1) continue;
 					
-					Game game = new Game(p0.getPlayExecutor(), p1.getPlayExecutor());
-					Board board = game.getEndBoard();
+					game.play(board, p0.getPlayExecutor(), p1.getPlayExecutor());
 					
 					Score score = board.getScore();
 					if (score.getBlack() > score.getWhite()) {
@@ -126,9 +132,5 @@ public class Driver {
 					return 1;
 			}
 		});
-	}
-	
-	public static void main(String[] args) {
-		new Driver().game();
 	}
 }
