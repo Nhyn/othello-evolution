@@ -55,4 +55,6 @@ public class PlayExecutor {
 	public double[] getWeights() {
 		return weights.clone();
 	}
+	
+	public static final PlayExecutor NO_STRATEGY_PLAY_EXECUTOR = new PlayExecutor(new Strategy[0]);
 }
