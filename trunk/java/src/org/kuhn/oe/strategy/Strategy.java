@@ -4,5 +4,5 @@ import org.kuhn.oe.game.Color;
 
 public interface Strategy {
 	void init(Board board, Color color);
-	PlayRating ratePlay(Color color, int col, int row, Board board);
+	boolean ratePlay(Color color, int col, int row, Board board);
 }

@@ -17,10 +17,10 @@ public class HighestTurnoverStrategy implements Strategy {
 					board.undo();
 				}
 	}
-	public PlayRating ratePlay(Color color, int col, int row, Board board) {
+	public boolean ratePlay(Color color, int col, int row, Board board) {
 		board.play(color, col, row);
 		int score = board.getScore().get(color);
 		board.undo();
-		return score == highScore ? PlayRating.FAVOR : PlayRating.ABSTAIN;
+		return score == highScore;
 	}
 }

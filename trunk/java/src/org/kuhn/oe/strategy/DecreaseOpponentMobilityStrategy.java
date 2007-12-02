@@ -14,7 +14,7 @@ public class DecreaseOpponentMobilityStrategy implements Strategy {
 				if (board.test(opponent, i, j))
 					++before;
 	}
-	public PlayRating ratePlay(Color color, int col, int row, Board board) {
+	public boolean ratePlay(Color color, int col, int row, Board board) {
 		// count opponent's moves after the play
 		board.play(color, col, row);
 		Color opponent = color.opponent();
@@ -24,9 +24,6 @@ public class DecreaseOpponentMobilityStrategy implements Strategy {
 				if (board.test(opponent, i, j))
 					++after;
 		board.undo();
-		if (after < before)
-			return PlayRating.FAVOR;
-		else
-			return PlayRating.ABSTAIN;
+		return after < before;
 	}
 }

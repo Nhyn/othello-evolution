@@ -4,8 +4,10 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Random;
+
 import org.kuhn.oe.breeder.Breeder;
 import org.kuhn.oe.breeder.CloneBreeder;
+import org.kuhn.oe.breeder.RegularMutationBreeder;
 import org.kuhn.oe.breeder.SingleMutationBreeder;
 import org.kuhn.oe.game.Board;
 import org.kuhn.oe.game.GameExecutor;
@@ -27,14 +29,14 @@ import org.kuhn.oe.strategy.Strategy;
 
 public class Driver {
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) throws Exception {
 		new Driver().game();
 	}
 	
-	public void game() {
+	public void game() throws Exception {
 		
-		Breeder cBreeder = new CloneBreeder();
-		Breeder smBreeder = new SingleMutationBreeder();
+		Breeder cloneBreeder = new CloneBreeder();
+		Breeder singleMutationBreeder = new RegularMutationBreeder(new SingleMutationBreeder(), 10);
 		
 		Strategy[] strategies = new Strategy[] {
 		new CornerStrategy(),
@@ -55,8 +57,8 @@ public class Driver {
 		Player adam = new Player(new PlayExecutor(strategies));
 		
 		List<Player> players = new ArrayList<Player>();
-		for (int i = 0; i < 6; ++i) {
-			players.add(cBreeder.breed(adam));
+		for (int i = 0; i < 12; ++i) {
+			players.add(cloneBreeder.breed(adam));
 		}
 		
 		
@@ -68,11 +70,11 @@ public class Driver {
 		GameExecutor game = new GameExecutor();
 		Board board = new Board();
 		
-		for (int j = 1; j <= 100; ++j) {
+		for (int j = 1; j <= 1000; ++j) {
 			List<Player> babies = new ArrayList<Player>();
 			
 			for (int i = 0; i < players.size(); ++i) {
-				for (int ii = 0; ii < 3; ++ii ) {
+				for (int ii = 0; ii < 6; ++ii ) {
 					Player p0 = players.get(i);
 					Player p1 = players.get(random.nextInt(players.size()));
 					if (p0 == p1) continue;
@@ -96,16 +98,14 @@ public class Driver {
 			}
 			
 			sort(players);
-			System.out.println(players.get(0));
+			//System.out.println(players.get(0));
+			players.get(0).print(System.out);
+			System.out.println();
 			
 			for (int i = 0; i < players.size() / 3; ++i) {
-				babies.add(cBreeder.breed(players.get(i)));
-				babies.add(cBreeder.breed(players.get(i)));
-//				if (i == players.size() / 3 - 1)
-					babies.add(smBreeder.breed(players.get(i)));
-//				else
-//					babies.add(cBreeder.breed(players.get(i)));
-					
+				babies.add(singleMutationBreeder.breed(players.get(i)));
+				babies.add(singleMutationBreeder.breed(players.get(i)));
+				babies.add(singleMutationBreeder.breed(players.get(i)));
 			}
 			
 			players = babies;

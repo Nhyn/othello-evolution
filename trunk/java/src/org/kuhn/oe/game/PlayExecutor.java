@@ -1,5 +1,4 @@
 package org.kuhn.oe.game;
-import org.kuhn.oe.strategy.PlayRating;
 import org.kuhn.oe.strategy.Strategy;
 
 public class PlayExecutor {
@@ -26,8 +25,7 @@ public class PlayExecutor {
 					double score = 0;
 					for (int k = 0; k < strategies.length; ++k) {
 						Strategy s = strategies[k];
-						PlayRating rating = s.ratePlay(color, i, j, board);
-						if (rating == PlayRating.FAVOR) {
+						if (s.ratePlay(color, i, j, board)) {
 							score += weights[k];
 						}
 					}
@@ -52,10 +50,10 @@ public class PlayExecutor {
 	double[]	weights;
 	
 	public Strategy[] getStrategies() {
-		return strategies.clone();
+		return strategies;
 	}
 	public double[] getWeights() {
-		return weights.clone();
+		return weights;
 	}
 	
 	public static final PlayExecutor NO_STRATEGY_PLAY_EXECUTOR = new PlayExecutor(new Strategy[0]);
