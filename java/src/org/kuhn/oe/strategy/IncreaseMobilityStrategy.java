@@ -12,7 +12,7 @@ public class IncreaseMobilityStrategy implements Strategy {
 				if (board.test(color, i, j))
 					++before;
 	}
-	public PlayRating ratePlay(Color color, int col, int row, Board board) {
+	public boolean ratePlay(Color color, int col, int row, Board board) {
 		int after = 0;
 		board.play(color, col, row);
 		for (int i = 0; i < 8; ++i)
@@ -20,11 +20,6 @@ public class IncreaseMobilityStrategy implements Strategy {
 				if (board.test(color, i, j))
 					++after;
 		board.undo();
-		if (after > before)
-			return PlayRating.FAVOR;
-		else
-			return PlayRating.ABSTAIN;
-//		else
-//			return PlayRating.DISFAVOR;
+		return after > before;
 	}
 }
