@@ -7,15 +7,15 @@ public class HighestTurnoverStrategy implements Strategy {
 	int highScore;
 	public void init(Board board, Color color) {
 		highScore = board.getScore().get(color);
-		for (int i = 0; i < 64; ++i) {
-			if (board.play(color, i)) {
-				int score = board.getScore().get(color);
-				if (score > highScore) {
-					highScore = score;
+		for (int i = 0; i < 8; ++i)
+			for (int j = 0; j < 8; ++j)
+				if (board.play(color, i, j)) {
+					int score = board.getScore().get(color);
+					if (score > highScore) {
+						highScore = score;
+					}
+					board.undo();
 				}
-				board.undo();
-			}
-		}
 	}
 	public PlayRating ratePlay(Color color, int col, int row, Board board) {
 		board.play(color, col, row);
