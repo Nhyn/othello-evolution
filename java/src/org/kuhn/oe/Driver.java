@@ -101,7 +101,11 @@ public class Driver {
 			for (int i = 0; i < players.size() / 3; ++i) {
 				babies.add(cBreeder.breed(players.get(i)));
 				babies.add(cBreeder.breed(players.get(i)));
-				babies.add(smBreeder.breed(players.get(i)));
+				if (i == players.size() / 3 - 1)
+					babies.add(smBreeder.breed(players.get(i)));
+				else
+					babies.add(cBreeder.breed(players.get(i)));
+					
 			}
 			
 			players = babies;
