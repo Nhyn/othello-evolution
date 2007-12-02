@@ -6,7 +6,6 @@ public class GameExecutor {
 		board.reset();
 		Color color = Color.BLACK;
 		boolean pass = false;
-		int round = 0;
 		while (board.getScore().getNone() > 0) {
 			boolean playResult;
 			if (color == Color.BLACK)
@@ -24,5 +23,11 @@ public class GameExecutor {
 			
 			color = color.opponent();
 		}
+		
+		++count;
 	}
+	public int getCount() {
+		return count;
+	}
+	int count = 0;
 }

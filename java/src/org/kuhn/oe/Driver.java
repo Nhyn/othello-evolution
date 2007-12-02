@@ -64,12 +64,11 @@ public class Driver {
 		
 		Random random = new Random();
 		
+		long start = System.currentTimeMillis();
 		GameExecutor game = new GameExecutor();
 		Board board = new Board();
 		
 		for (int j = 1; j <= 100; ++j) {
-//			System.out.println("ROUND " + j + " with " + players.size() + " players");
-			
 			List<Player> babies = new ArrayList<Player>();
 			
 			for (int i = 0; i < players.size(); ++i) {
@@ -112,7 +111,8 @@ public class Driver {
 		
 		
 		System.out.println(String.format("black: %d, white: %d, draw: %d", b, w, d));
-		
+		long dur = System.currentTimeMillis() - start;
+		System.out.println(game.getCount() + " games in " + dur + " ms (" + (float)game.getCount() / ((float)dur / 1000.0) + " games per second)");
 
 	}
 	
