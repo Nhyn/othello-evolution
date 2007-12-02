@@ -18,6 +18,11 @@ public class PerfTest extends TestCase {
 		//2272 games per second with bitwise board (still using cache)
 		//40 games per second without cache
 		//~3100 games per second without cache using mutable board!!!
+		
+		// 1146 new baseline
+		// 855 play refactor into vector
+		// 946 with fewer getcolor calls
+		// 1155 with optimized valid calculation
 	}
 //	public void test() throws Exception {
 //		
