@@ -23,6 +23,8 @@ public class Board {
 	}
 	
 	public boolean play(Color color, int col, int row) {
+		assert index < 63;
+		
 		if (getColor(col, row) != Color.NONE) {
 			return false;
 		}
@@ -32,166 +34,21 @@ public class Board {
 		++index;
 		setColor(col, row, color);
 		
-		boolean valid = false;
-		int x, y;
-		
-		// south
-		x = col;
-		y = row + 1;
-		if (y < 8 && getColor(x, y) != color) {
-			while (y < 8) {
-				if (getColor(x, y) == Color.NONE) {
-					break;
-				} else if (getColor(x, y) == color) {
-					valid = true;
-					while (--y > row) {
-						setColor(x, y, color);
-					}
-					break;
-				}
-				++y;
-			}
-		}
+		boolean v0 = playVector(color, col, row, 0, -1);	// north
+		boolean v1 = playVector(color, col, row, 1, -1);	// northeast
+		boolean v2 = playVector(color, col, row, 1, 0);		// east
+		boolean v3 = playVector(color, col, row, 1, 1);		// southeast
+		boolean v4 = playVector(color, col, row, 0, 1);		// south
+		boolean v5 = playVector(color, col, row, -1, 1);	// southwest
+		boolean v6 = playVector(color, col, row, -1, 0);	// west
+		boolean v7 = playVector(color, col, row, -1, -1);	// northwest
 
-		// southeast
-		x = col + 1;
-		y = row + 1;
-		if (x < 8 && y < 8 && getColor(x, y) != color) {
-			while (x < 8 && y < 8) {
-				if (getColor(x, y) == Color.NONE) {
-					break;
-				}
-				else if (getColor(x, y) == color) {
-					valid = true;
-					while (--x > col && --y > row) {
-						setColor(x, y, color);
-					}
-					break;
-				}
-				++x;
-				++y;
-			}
-		}
-
-		// east
-		x = col + 1;
-		y = row;
-		if (x < 8 && getColor(x, y) != color) {
-			while (x < 8) {
-				if (getColor(x, y) == Color.NONE) {
-					break;
-				}
-				else if (getColor(x, y) == color) {
-					valid = true;
-					while (--x > col) {
-						setColor(x, y, color);
-					}
-					break;
-				}
-				++x;
-			}
-		}
-
-		// northeast
-		x = col + 1;
-		y = row - 1;
-		if (x < 8 && y >= 0 && getColor(x, y) != color) {
-			while (x < 8 && y >= 0) {
-				if (getColor(x, y) == Color.NONE) {
-					break;
-				}
-				else if (getColor(x, y) == color) {
-					valid = true;
-					while (--x > col && ++y < row) {
-						setColor(x, y, color);
-					}
-					break;
-				}
-				++x;
-				--y;
-			}
-		}
-
-		// north
-		x = col;
-		y = row - 1;
-		if (y >= 0 && getColor(x, y) != color) {
-			while (y >= 0) {
-				if (getColor(x, y) == Color.NONE) {
-					break;
-				}
-				else if (getColor(x, y) == color) {
-					valid = true;
-					while (++y < row) {
-						setColor(x, y, color);
-					}
-					break;
-				}
-				--y;
-			}
-		}
-
-		// northwest
-		x = col - 1;
-		y = row - 1;
-		if (x >= 0 && y >= 0 && getColor(x, y) != color) {
-			while (x >= 0 && y >= 0) {
-				if (getColor(x, y) == Color.NONE) {
-					break;
-				}
-				else if (getColor(x, y) == color) {
-					valid = true;
-					while (++x < col && ++y < row) {
-						setColor(x, y, color);
-					}
-					break;
-				}
-				--x;
-				--y;
-			}
-		}
-
-		// west
-		x = col - 1;
-		y = row;
-		if (x >= 0 && getColor(x, y) != color) {
-			while (x >= 0) {
-				if (getColor(x, y) == Color.NONE) {
-					break;
-				}
-				else if (getColor(x, y) == color) {
-					valid = true;
-					while (++x < col) {
-						setColor(x, y, color);
-					}
-					break;
-				}
-				--x;
-			}
-		}
-
-		// southwest
-		x = col - 1;
-		y = row + 1;
-		if (x >= 0 && y < 8 && getColor(x, y) != color) {
-			while (x >= 0 && y < 8) {
-				if (getColor(x, y) == Color.NONE) {
-					break;
-				}
-				else if (getColor(x, y) == color) {
-					valid = true;
-					while (++x < col && --y > row) {
-						setColor(x, y, color);
-					}
-					break;
-				}
-				--x;
-				++y;
-			}
-		}
-		if (!valid)
+		if (v0 || v1 || v2 || v3 || v4 || v5 || v6 || v7)
+			return true;
+		else {
 			--index;
-		return valid;
+			return false;
+		}
 	}
 	public void undo() {
 		assert index > 0;
@@ -201,6 +58,32 @@ public class Board {
 		boolean result = play(color, col, row);
 		if (result) undo();
 		return result;
+	}
+	
+	private boolean playVector(Color color, int col, int row, int dx, int dy) {
+		boolean valid = false;
+		int x = col + dx;
+		int y = row + dy;
+		Color c = getColor(x, y);
+		if (x >= 0 && x < 8 && y >= 0 && y < 8 && c != color) {
+			while (x >= 0 && x < 8 && y >= 0 && y < 8) {
+				if (c == Color.NONE) {
+					break;
+				} else if (c == color) {
+					valid = true;
+					while (x != col || y != row) {
+						x -= dx;
+						y -= dy;
+						setColor(x, y, color);
+					}
+					break;
+				}
+				x += dx;
+				y += dy;
+				c = getColor(x, y);
+			}
+		}
+		return valid;
 	}
 	
 	private Color getColor(int col, int row) {
