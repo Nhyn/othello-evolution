@@ -25,8 +25,8 @@ public class Board {
 		
 		this.data1[index + 1] = this.data1[index];
 		this.data2[index + 1] = this.data2[index];
-		short i = (short)(this.index + 1);
-		setColor(i, col, row, color);
+		++index;
+		setColor(col, row, color);
 		
 		boolean valid = false;
 		int x, y;
@@ -34,14 +34,14 @@ public class Board {
 		// south
 		x = col;
 		y = row + 1;
-		if (y < 8 && getColor(i, x, y) != color) {
+		if (y < 8 && getColor(x, y) != color) {
 			while (y < 8) {
-				if (getColor(i, x, y) == Color.NONE) {
+				if (getColor(x, y) == Color.NONE) {
 					break;
-				} else if (getColor(i, x, y) == color) {
+				} else if (getColor(x, y) == color) {
 					valid = true;
 					while (--y > row) {
-						setColor(i, x, y, color);
+						setColor(x, y, color);
 					}
 					break;
 				}
@@ -52,15 +52,15 @@ public class Board {
 		// southeast
 		x = col + 1;
 		y = row + 1;
-		if (x < 8 && y < 8 && getColor(i, x, y) != color) {
+		if (x < 8 && y < 8 && getColor(x, y) != color) {
 			while (x < 8 && y < 8) {
-				if (getColor(i, x, y) == Color.NONE) {
+				if (getColor(x, y) == Color.NONE) {
 					break;
 				}
-				else if (getColor(i, x, y) == color) {
+				else if (getColor(x, y) == color) {
 					valid = true;
 					while (--x > col && --y > row) {
-						setColor(i, x, y, color);
+						setColor(x, y, color);
 					}
 					break;
 				}
@@ -72,15 +72,15 @@ public class Board {
 		// east
 		x = col + 1;
 		y = row;
-		if (x < 8 && getColor(i, x, y) != color) {
+		if (x < 8 && getColor(x, y) != color) {
 			while (x < 8) {
-				if (getColor(i, x, y) == Color.NONE) {
+				if (getColor(x, y) == Color.NONE) {
 					break;
 				}
-				else if (getColor(i, x, y) == color) {
+				else if (getColor(x, y) == color) {
 					valid = true;
 					while (--x > col) {
-						setColor(i, x, y, color);
+						setColor(x, y, color);
 					}
 					break;
 				}
@@ -91,15 +91,15 @@ public class Board {
 		// northeast
 		x = col + 1;
 		y = row - 1;
-		if (x < 8 && y >= 0 && getColor(i, x, y) != color) {
+		if (x < 8 && y >= 0 && getColor(x, y) != color) {
 			while (x < 8 && y >= 0) {
-				if (getColor(i, x, y) == Color.NONE) {
+				if (getColor(x, y) == Color.NONE) {
 					break;
 				}
-				else if (getColor(i, x, y) == color) {
+				else if (getColor(x, y) == color) {
 					valid = true;
 					while (--x > col && ++y < row) {
-						setColor(i, x, y, color);
+						setColor(x, y, color);
 					}
 					break;
 				}
@@ -111,15 +111,15 @@ public class Board {
 		// north
 		x = col;
 		y = row - 1;
-		if (y >= 0 && getColor(i, x, y) != color) {
+		if (y >= 0 && getColor(x, y) != color) {
 			while (y >= 0) {
-				if (getColor(i, x, y) == Color.NONE) {
+				if (getColor(x, y) == Color.NONE) {
 					break;
 				}
-				else if (getColor(i, x, y) == color) {
+				else if (getColor(x, y) == color) {
 					valid = true;
 					while (++y < row) {
-						setColor(i, x, y, color);
+						setColor(x, y, color);
 					}
 					break;
 				}
@@ -130,15 +130,15 @@ public class Board {
 		// northwest
 		x = col - 1;
 		y = row - 1;
-		if (x >= 0 && y >= 0 && getColor(i, x, y) != color) {
+		if (x >= 0 && y >= 0 && getColor(x, y) != color) {
 			while (x >= 0 && y >= 0) {
-				if (getColor(i, x, y) == Color.NONE) {
+				if (getColor(x, y) == Color.NONE) {
 					break;
 				}
-				else if (getColor(i, x, y) == color) {
+				else if (getColor(x, y) == color) {
 					valid = true;
 					while (++x < col && ++y < row) {
-						setColor(i, x, y, color);
+						setColor(x, y, color);
 					}
 					break;
 				}
@@ -150,15 +150,15 @@ public class Board {
 		// west
 		x = col - 1;
 		y = row;
-		if (x >= 0 && getColor(i, x, y) != color) {
+		if (x >= 0 && getColor(x, y) != color) {
 			while (x >= 0) {
-				if (getColor(i, x, y) == Color.NONE) {
+				if (getColor(x, y) == Color.NONE) {
 					break;
 				}
-				else if (getColor(i, x, y) == color) {
+				else if (getColor(x, y) == color) {
 					valid = true;
 					while (++x < col) {
-						setColor(i, x, y, color);
+						setColor(x, y, color);
 					}
 					break;
 				}
@@ -169,15 +169,15 @@ public class Board {
 		// southwest
 		x = col - 1;
 		y = row + 1;
-		if (x >= 0 && y < 8 && getColor(i, x, y) != color) {
+		if (x >= 0 && y < 8 && getColor(x, y) != color) {
 			while (x >= 0 && y < 8) {
-				if (getColor(i, x, y) == Color.NONE) {
+				if (getColor(x, y) == Color.NONE) {
 					break;
 				}
-				else if (getColor(i, x, y) == color) {
+				else if (getColor(x, y) == color) {
 					valid = true;
 					while (++x < col && --y > row) {
-						setColor(i, x, y, color);
+						setColor(x, y, color);
 					}
 					break;
 				}
@@ -185,8 +185,8 @@ public class Board {
 				++y;
 			}
 		}
-		if (valid)
-			++index;
+		if (!valid)
+			--index;
 		return valid;
 	}
 	public boolean play(Color color, int index) {
@@ -207,21 +207,14 @@ public class Board {
 		return result;
 	}
 	
-	public Color getColor(int col, int row) {
-		return getColor(index, col, row);
-	}
-	public void setColor(int col, int row, Color color) {
-		setColor(index, col, row, color);
-	}
-	
-	private Color getColor(short index, int col, int row) {
+	private Color getColor(int col, int row) {
 		int offset = col + row * 8;
 		long bit1 = (data1[index] >> offset) & 0x1;
 		long bit2 = (data2[index] >> offset) & 0x1;
 		long bit = bit1 | (bit2 << 1);
 		return COLORS[(int)bit];
 	}
-	private void setColor(short index, int col, int row, Color color) {
+	private void setColor(int col, int row, Color color) {
 		int offset = col + row * 8;
 		long bit = 0x1L << offset;
 		if (color == Color.BLACK) {
