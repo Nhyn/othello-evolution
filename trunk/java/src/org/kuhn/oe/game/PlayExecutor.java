@@ -1,4 +1,5 @@
 package org.kuhn.oe.game;
+import org.kuhn.oe.strategy.PlayRating;
 import org.kuhn.oe.strategy.Strategy;
 
 public class PlayExecutor {
@@ -18,30 +19,27 @@ public class PlayExecutor {
 		for (Strategy s : strategies)
 			s.init(board, color);
 		
-		for (int i = 0; i < 64; ++i) {
-			if (board.play(color, i))
-				return true;
-			
-//			if (board.test(color, i)) {
-//				double score = 0;
-//				for (int j = 0; j < strategies.length; ++j) {
-//					Strategy s = strategies[j];
-//					PlayRating rating = s.ratePlay(color, i % 8, i / 8, board);
-//					if (rating == PlayRating.FAVOR) {
-//						score += weights[j];
-//					}
-//				}
-//				if (highScoreIndex == null || score > highScore) {
-//					highScore = score;
-//					highScoreIndex = i;
-//				}
-//			}
+		for (int i = 0; i < 64; ++i) {		
+			if (board.test(color, i)) {
+				double score = 0;
+				for (int j = 0; j < strategies.length; ++j) {
+					Strategy s = strategies[j];
+					PlayRating rating = s.ratePlay(color, i % 8, i / 8, board);
+					if (rating == PlayRating.FAVOR) {
+						score += weights[j];
+					}
+				}
+				if (score > highScore || highScoreIndex == null) {
+					highScore = score;
+					highScoreIndex = i;
+				}
+			}
 		}
-//		if (highScoreIndex != null) {
-//			board.play(color, highScoreIndex);
-//			return true;
-//		}
-//		else
+		if (highScoreIndex != null) {
+			board.play(color, highScoreIndex);
+			return true;
+		}
+		else
 			return false;
 
 	}
