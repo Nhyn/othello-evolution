@@ -5,6 +5,12 @@ import org.kuhn.oe.game.Color;
 
 
 public class BoardTest extends TestCase {
+	public void testPrint() throws Exception {
+		Board b = new Board();
+		b.print(System.out);
+		System.out.println(b);
+	}
+	
 	public void test() {
 		Board b = new Board();
 		System.out.print(b);

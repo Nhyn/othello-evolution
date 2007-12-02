@@ -1,5 +1,9 @@
 package org.kuhn.oe.game;
 
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+
 
 public class Board {
 	public Board() {
@@ -249,9 +253,8 @@ public class Board {
 	@Override
 	public String toString() {
 		StringBuilder buf = new StringBuilder();
-		buf.append(" 01234567\r\n");
+		buf.append(index + ":");
 		for (int i = 0; i < 8; ++i) {
-			buf.append(i);
 			for (int j = 0; j < 8; ++j) {
 				Color c = getColor(j, i);
 				if (c == Color.BLACK) {
@@ -262,11 +265,32 @@ public class Board {
 					buf.append("-");
 				}
 			}
-			buf.append("\r\n");
 		}
 		Score score = getScore();
-		buf.append("b:" + score.getBlack() + ",w:" + score.getWhite() + " (" + score.getNone() + ")\r\n");
+		buf.append(score.getBlack() + "/" + score.getWhite() + "/" + score.getNone());
 		return buf.toString();
+	}
+	
+	public void print(OutputStream out) throws IOException {
+		OutputStreamWriter writer = new OutputStreamWriter(out);
+		writer.append(" 01234567\r\n");
+		for (int i = 0; i < 8; ++i) {
+			writer.append(String.valueOf(i));
+			for (int j = 0; j < 8; ++j) {
+				Color c = getColor(j, i);
+				if (c == Color.BLACK) {
+					writer.append("B");
+				} else if (c == Color.WHITE) {
+					writer.append("W");
+				} else {
+					writer.append("-");
+				}
+			}
+			writer.append("\r\n");
+		}
+		Score score = getScore();
+		writer.append("black: " + score.getBlack() + ", white: " + score.getWhite() + ", blank: " + score.getNone() + "\r\n");
+		writer.flush();
 	}
 	
 	private short index = 0;
