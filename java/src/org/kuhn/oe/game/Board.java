@@ -193,20 +193,12 @@ public class Board {
 			--index;
 		return valid;
 	}
-	public boolean play(Color color, int index) {
-		return play(color, index % 8, index / 8);
-	}
 	public void undo() {
 		assert index > 0;
 		--index;
 	}
 	public boolean test(Color color, int col, int row) {
 		boolean result = play(color, col, row);
-		undo();
-		return result;
-	}
-	public boolean test(Color color, int index) {
-		boolean result = play(color, index);
 		if (result) undo();
 		return result;
 	}

@@ -14,29 +14,33 @@ public class PlayExecutor {
 
 	public boolean play(Board board, Color color) {
 		double highScore = Integer.MIN_VALUE;
-		Integer highScoreIndex = null;
+		Integer highScoreCol = null;
+		Integer highScoreRow = null;
 
 		for (Strategy s : strategies)
 			s.init(board, color);
 		
-		for (int i = 0; i < 64; ++i) {		
-			if (board.test(color, i)) {
-				double score = 0;
-				for (int j = 0; j < strategies.length; ++j) {
-					Strategy s = strategies[j];
-					PlayRating rating = s.ratePlay(color, i % 8, i / 8, board);
-					if (rating == PlayRating.FAVOR) {
-						score += weights[j];
+		for (int i = 0; i < 8; ++i) {
+			for (int j = 0; j < 8; ++j) {
+				if (board.test(color, i, j)) {
+					double score = 0;
+					for (int k = 0; k < strategies.length; ++k) {
+						Strategy s = strategies[k];
+						PlayRating rating = s.ratePlay(color, i, j, board);
+						if (rating == PlayRating.FAVOR) {
+							score += weights[k];
+						}
 					}
-				}
-				if (score > highScore || highScoreIndex == null) {
-					highScore = score;
-					highScoreIndex = i;
+					if (score > highScore || highScoreCol == null) {
+						highScore = score;
+						highScoreCol = i;
+						highScoreRow = j;
+					}
 				}
 			}
 		}
-		if (highScoreIndex != null) {
-			board.play(color, highScoreIndex);
+		if (highScoreCol != null) {
+			board.play(color, highScoreCol, highScoreRow);
 			return true;
 		}
 		else

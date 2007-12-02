@@ -55,7 +55,7 @@ public class Driver {
 		Player adam = new Player(new PlayExecutor(strategies));
 		
 		List<Player> players = new ArrayList<Player>();
-		for (int i = 0; i < 12; ++i) {
+		for (int i = 0; i < 6; ++i) {
 			players.add(cBreeder.breed(adam));
 		}
 		
@@ -72,7 +72,7 @@ public class Driver {
 			List<Player> babies = new ArrayList<Player>();
 			
 			for (int i = 0; i < players.size(); ++i) {
-				for (int ii = 0; ii < 6; ++ii ) {
+				for (int ii = 0; ii < 3; ++ii ) {
 					Player p0 = players.get(i);
 					Player p1 = players.get(random.nextInt(players.size()));
 					if (p0 == p1) continue;
@@ -101,10 +101,10 @@ public class Driver {
 			for (int i = 0; i < players.size() / 3; ++i) {
 				babies.add(cBreeder.breed(players.get(i)));
 				babies.add(cBreeder.breed(players.get(i)));
-				if (i == players.size() / 3 - 1)
+//				if (i == players.size() / 3 - 1)
 					babies.add(smBreeder.breed(players.get(i)));
-				else
-					babies.add(cBreeder.breed(players.get(i)));
+//				else
+//					babies.add(cBreeder.breed(players.get(i)));
 					
 			}
 			
