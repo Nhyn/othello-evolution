@@ -1,4 +1,15 @@
 package org.kuhn.oe.game;
+import org.kuhn.oe.strategy.CaptureLastTurnStrategy;
+import org.kuhn.oe.strategy.CornerStrategy;
+import org.kuhn.oe.strategy.DecisiveWinStrategy;
+import org.kuhn.oe.strategy.DecreaseOpponentMobilityStrategy;
+import org.kuhn.oe.strategy.EdgeStrategy;
+import org.kuhn.oe.strategy.HighestTurnoverStrategy;
+import org.kuhn.oe.strategy.IncreaseMobilityStrategy;
+import org.kuhn.oe.strategy.NearCornerStrategy;
+import org.kuhn.oe.strategy.NearEdgeStrategy;
+import org.kuhn.oe.strategy.PreventOpponentTurnStrategy;
+import org.kuhn.oe.strategy.RandomizationStrategy;
 import org.kuhn.oe.strategy.Strategy;
 
 public class PlayExecutor {
@@ -57,4 +68,17 @@ public class PlayExecutor {
 	}
 	
 	public static final PlayExecutor NO_STRATEGY_PLAY_EXECUTOR = new PlayExecutor(new Strategy[0]);
+	public static final PlayExecutor ALL_STRATEGY_PLAY_EXECUTOR = new PlayExecutor(new Strategy[] {
+		new CornerStrategy(),
+		new NearCornerStrategy(),
+		new EdgeStrategy(),
+		new NearEdgeStrategy(),
+		new HighestTurnoverStrategy(),
+		new PreventOpponentTurnStrategy(),
+		new CaptureLastTurnStrategy(),
+		new DecisiveWinStrategy(),
+		new IncreaseMobilityStrategy(),
+		new DecreaseOpponentMobilityStrategy(),
+		new RandomizationStrategy()
+		});
 }
