@@ -33,6 +33,12 @@ public class Player {
 	public double getWinLoseRatio() {
 		return (double)wins / (double)loses;
 	}
+	public void draw() {
+		++draws;
+	}
+	public int getDraws() {
+		return draws;
+	}
 	
 	@Override
 	public String toString() {
@@ -65,9 +71,14 @@ public class Player {
 			}
 			writer.append("\r\n");
 		}
+		writer.append("\r\n");
+		writer.append("     Wins : " + wins + "\r\n");
+		writer.append("    Loses : " + loses + "\r\n");
+		writer.append("    Draws : " + draws + "\r\n");
 		writer.flush();
 	}
 
 	int wins = 0;
 	int loses = 0;
+	int draws = 0;
 }
