@@ -15,6 +15,7 @@ import org.kuhn.oe.game.GameExecutor;
 import org.kuhn.oe.game.PlayExecutor;
 import org.kuhn.oe.game.Player;
 import org.kuhn.oe.game.Score;
+import org.kuhn.oe.strategy.CaptureLastTurnStrategy;
 import org.kuhn.oe.strategy.CornerStrategy;
 import org.kuhn.oe.strategy.DecisiveWinStrategy;
 import org.kuhn.oe.strategy.DecreaseOpponentMobilityStrategy;
@@ -35,52 +36,46 @@ public class Driver {
 	}
 	
 	public void game() throws Exception {
-		
-		Breeder cloneBreeder = new CloneBreeder();
-		Breeder singleMutationBreeder = new RegularMutationBreeder(new SingleMutationBreeder(new SimpleMutator()), 10);
-		
+		// initialization
 		Strategy[] strategies = new Strategy[] {
 		new CornerStrategy(),
 		new NearCornerStrategy(),
 		new EdgeStrategy(),
 		new NearEdgeStrategy(),
 		new HighestTurnoverStrategy(),
-//		new PreventOpponentTurnStrategy(),
-//		new DecisiveWinStrategy(),
-//		new IncreaseMobilityStrategy(),
-//		new DecreaseOpponentMobilityStrategy(),
-//		new RandomizationStrategy()
+		new PreventOpponentTurnStrategy(),
+		new CaptureLastTurnStrategy(),
+		new DecisiveWinStrategy(),
+		new IncreaseMobilityStrategy(),
+		new DecreaseOpponentMobilityStrategy(),
+		new RandomizationStrategy()
 		};
-		for (Strategy s : strategies)
-			System.out.print(s.getClass().getSimpleName() + " ");
-		System.out.println();
-		
+//		for (Strategy s : strategies)
+//			System.out.print(s.getClass().getSimpleName() + " ");
+//		System.out.println();
 		Player adam = new Player(new PlayExecutor(strategies));
-		
-		List<Player> players = new ArrayList<Player>();
+		List<Player> population = new ArrayList<Player>();
+		Breeder cloneBreeder = new CloneBreeder();
 		for (int i = 0; i < 100; ++i) {
-			players.add(cloneBreeder.breed(adam));
+			population.add(cloneBreeder.breed(adam));
 		}
-		
-		
-		int b = 0, w = 0, d = 0;
 		
 		Random random = new Random();
 		
-		long start = System.currentTimeMillis();
 		GameExecutor game = new GameExecutor();
 		Board board = new Board();
 		
-		for (int j = 1; j <= 10000; ++j) {
-			System.out.println("ROUND " + j);
-			System.out.println();
+		for (int gen = 0; gen < 10000; ++gen) {
+			long startMs = System.currentTimeMillis();
+			int startGameCount = game.getCount();
 			
-			List<Player> babies = new ArrayList<Player>();
+			List<Player> offspring = new ArrayList<Player>();
 			
-			for (int i = 0; i < players.size(); ++i) {
+			// measure fitness
+			for (int i = 0; i < population.size(); ++i) {
 				for (int ii = 0; ii < 100; ++ii ) {
-					Player p0 = players.get(i);
-					Player p1 = players.get(random.nextInt(players.size()));
+					Player p0 = population.get(i);
+					Player p1 = population.get(random.nextInt(population.size()));
 					if (p0 == p1) {
 						--ii;
 						continue;
@@ -92,39 +87,39 @@ public class Driver {
 					if (score.getBlack() > score.getWhite()) {
 						p0.win();
 						p1.lose();
-						++b;
 					} else if (score.getBlack() < score.getWhite()) {
 						p0.lose();
 						p1.win();
-						++w;
 					} else {
-						++d;
+						p0.draw();
+						p1.draw();
 					}
 				}
 				
 			}
 			
-			sort(players);
-			//System.out.println(players.get(0));
-			players.get(0).print(System.out);
+			System.out.println("Generation: " + gen);
+			long dur = System.currentTimeMillis() - startMs;
+			int games = game.getCount() - startGameCount;
+			System.out.println(String.format("%d games in %d ms (%1.2f games per second)", games, dur, (float)games / ((float)dur / 1000.0)));
 			System.out.println();
 			
-			for (int i = 0; i < players.size() / 3; ++i) {
-				babies.add(singleMutationBreeder.breed(players.get(i)));
-				babies.add(singleMutationBreeder.breed(players.get(i)));
-				babies.add(singleMutationBreeder.breed(players.get(i)));
+			//System.out.println(players.get(0));
+			sort(population);
+			population.get(0).print(System.out);
+			System.out.println();
+			
+			// selection and reproduction
+			Breeder regularMutationBreeder = new RegularMutationBreeder(new SingleMutationBreeder(new SimpleMutator()), 5);
+			for (int i = 0; i < population.size() / 3; ++i) {
+				offspring.add(regularMutationBreeder.breed(population.get(i)));
+				offspring.add(regularMutationBreeder.breed(population.get(i)));
+				offspring.add(regularMutationBreeder.breed(population.get(random.nextInt(population.size()))));
 			}
 			
-			players = babies;
+			population = offspring;
 			
 		}
-		
-		
-		
-		System.out.println(String.format("black: %d, white: %d, draw: %d", b, w, d));
-		long dur = System.currentTimeMillis() - start;
-		System.out.println(game.getCount() + " games in " + dur + " ms (" + (float)game.getCount() / ((float)dur / 1000.0) + " games per second)");
-
 	}
 	
 	private void sort(List<Player> list) {
@@ -135,8 +130,14 @@ public class Driver {
 				if (o1.getWins() == o2.getWins()) {
 					if (o1.getLoses() < o2.getLoses())
 						return -1;
-					else if (o1.getLoses() == o2.getLoses())
-						return 0;
+					else if (o1.getLoses() == o2.getLoses()) {
+						if (o1.getDraws() < o2.getDraws())
+							return -1;
+						else if (o1.getDraws() == o2.getDraws())
+							return 0;
+						else
+							return 1;
+					}
 					else
 						return 1;
 				} else

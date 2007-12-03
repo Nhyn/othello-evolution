@@ -54,11 +54,6 @@ public class Board {
 		assert index > 0;
 		--index;
 	}
-	public boolean test(Color color, int col, int row) {
-		boolean result = play(color, col, row);
-		if (result) undo();
-		return result;
-	}
 	
 	private boolean playVector(Color color, int col, int row, int dx, int dy) {
 		boolean valid = false;
@@ -84,6 +79,39 @@ public class Board {
 			}
 		}
 		return valid;
+	}
+	
+	public boolean test(Color color, int col, int row) {
+		if (getColor(col, row) != Color.NONE) {
+			return false;
+		}
+		return testVector(color, col, row, 0, -1)	// north
+		|| testVector(color, col, row, 1, -1)		// northeast
+		|| testVector(color, col, row, 1, 0)		// east
+		|| testVector(color, col, row, 1, 1)		// southeast
+		|| testVector(color, col, row, 0, 1)		// south
+		|| testVector(color, col, row, -1, 1)		// southwest
+		|| testVector(color, col, row, -1, 0)		// west
+		|| testVector(color, col, row, -1, -1);		// northwest
+	}
+	
+	private boolean testVector(Color color, int col, int row, int dx, int dy) {
+		int x = col + dx;
+		int y = row + dy;
+		Color c = getColor(x, y);
+		if (x >= 0 && x < 8 && y >= 0 && y < 8 && c != color) {
+			while (x >= 0 && x < 8 && y >= 0 && y < 8) {
+				if (c == Color.NONE) {
+					break;
+				} else if (c == color) {
+					return true;
+				}
+				x += dx;
+				y += dy;
+				c = getColor(x, y);
+			}
+		}
+		return false;
 	}
 	
 	private Color getColor(int col, int row) {
