@@ -9,6 +9,7 @@ import org.kuhn.oe.breeder.Breeder;
 import org.kuhn.oe.breeder.CloneBreeder;
 import org.kuhn.oe.breeder.RegularMutationBreeder;
 import org.kuhn.oe.breeder.SingleMutationBreeder;
+import org.kuhn.oe.breeder.mutator.SimpleMutator;
 import org.kuhn.oe.game.Board;
 import org.kuhn.oe.game.GameExecutor;
 import org.kuhn.oe.game.PlayExecutor;
@@ -36,7 +37,7 @@ public class Driver {
 	public void game() throws Exception {
 		
 		Breeder cloneBreeder = new CloneBreeder();
-		Breeder singleMutationBreeder = new RegularMutationBreeder(new SingleMutationBreeder(), 10);
+		Breeder singleMutationBreeder = new RegularMutationBreeder(new SingleMutationBreeder(new SimpleMutator()), 10);
 		
 		Strategy[] strategies = new Strategy[] {
 		new CornerStrategy(),
@@ -44,11 +45,11 @@ public class Driver {
 		new EdgeStrategy(),
 		new NearEdgeStrategy(),
 		new HighestTurnoverStrategy(),
-		new PreventOpponentTurnStrategy(),
-		new DecisiveWinStrategy(),
-		new IncreaseMobilityStrategy(),
-		new DecreaseOpponentMobilityStrategy(),
-		new RandomizationStrategy()
+//		new PreventOpponentTurnStrategy(),
+//		new DecisiveWinStrategy(),
+//		new IncreaseMobilityStrategy(),
+//		new DecreaseOpponentMobilityStrategy(),
+//		new RandomizationStrategy()
 		};
 		for (Strategy s : strategies)
 			System.out.print(s.getClass().getSimpleName() + " ");
@@ -57,7 +58,7 @@ public class Driver {
 		Player adam = new Player(new PlayExecutor(strategies));
 		
 		List<Player> players = new ArrayList<Player>();
-		for (int i = 0; i < 12; ++i) {
+		for (int i = 0; i < 100; ++i) {
 			players.add(cloneBreeder.breed(adam));
 		}
 		
@@ -70,14 +71,20 @@ public class Driver {
 		GameExecutor game = new GameExecutor();
 		Board board = new Board();
 		
-		for (int j = 1; j <= 1000; ++j) {
+		for (int j = 1; j <= 10000; ++j) {
+			System.out.println("ROUND " + j);
+			System.out.println();
+			
 			List<Player> babies = new ArrayList<Player>();
 			
 			for (int i = 0; i < players.size(); ++i) {
-				for (int ii = 0; ii < 6; ++ii ) {
+				for (int ii = 0; ii < 100; ++ii ) {
 					Player p0 = players.get(i);
 					Player p1 = players.get(random.nextInt(players.size()));
-					if (p0 == p1) continue;
+					if (p0 == p1) {
+						--ii;
+						continue;
+					}
 					
 					game.play(board, p0.getPlayExecutor(), p1.getPlayExecutor());
 					
