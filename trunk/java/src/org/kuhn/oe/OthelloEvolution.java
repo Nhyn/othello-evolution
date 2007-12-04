@@ -39,9 +39,6 @@ import org.kuhn.oe.strategy.Strategy;
 
 public class OthelloEvolution {
 	public static void main(String[] args) throws Exception {
-		// common
-		Mutator mutator = new SimpleMutator();		
-		
 		// initialization
 		Strategy[] strategies = new Strategy[] {
 		new CornerStrategy(),
@@ -58,13 +55,13 @@ public class OthelloEvolution {
 		};
 		PrototypePlayerInitializer initializer = new PrototypePlayerInitializer();
 		initializer.setPrototypePlayer(new Player(new PlayExecutor(strategies)));
-		initializer.setBreeder(new MassMutationBreeder(mutator));
+		initializer.setBreeder(new MassMutationBreeder(SimpleMutator.MAJOR_MUTATOR));
 		
 		// fitness test
 //		RandomPlayTester tester = new RandomPlayTester();
 //		tester.setGameCountPerGeneration(250);
 		EqualPlayTester tester = new EqualPlayTester();
-		tester.setGameCountPerPlayer(10);
+		tester.setGameCountPerPlayer(20);
 		
 		// selection
 //		Selector selector = new TopThirdSelector();
@@ -79,9 +76,8 @@ public class OthelloEvolution {
 				new CloneBreeder(),
 				new CloneBreeder(),
 				new CloneBreeder(),
-				new CloneBreeder(),
-				new SingleMutationBreeder(mutator),
-				new MassMutationBreeder(mutator),
+				new SingleMutationBreeder(SimpleMutator.MINOR_MUTATOR),
+				new MassMutationBreeder(SimpleMutator.MINOR_MUTATOR),
 				new FreshBloodBreeder(initializer)
 		);
 		
@@ -95,7 +91,7 @@ public class OthelloEvolution {
 		
 		// build simulation and execute
 		PlugableSimulation simulation = new PlugableSimulation();
-		simulation.setPopulationSize(100);
+		simulation.setPopulationSize(25);
 		simulation.setGenerationCount(1000);
 		simulation.setInitializer(initializer);
 		simulation.setTester(tester);
