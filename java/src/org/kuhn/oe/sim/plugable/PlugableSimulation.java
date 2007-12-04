@@ -53,6 +53,11 @@ public class PlugableSimulation extends SimulationTemplate {
 	}
 	
 	@Override
+	protected void printBanner(List<Player> population) {
+		printer.printBanner(population);
+	}
+	
+	@Override
 	protected void printGenerationNumber(int generationNumber) {
 		printer.printGenerationNumber(generationNumber);
 	}

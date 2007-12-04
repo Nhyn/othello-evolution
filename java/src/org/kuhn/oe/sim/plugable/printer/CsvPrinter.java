@@ -5,23 +5,30 @@ import java.io.PrintStream;
 import java.util.Collections;
 import java.util.List;
 import org.kuhn.oe.game.Player;
+import org.kuhn.oe.strategy.Strategy;
 
-public class ConsolePrinter implements Printer {
+public class CsvPrinter implements Printer {
 	private PrintStream out;
-	public ConsolePrinter() {
+	public CsvPrinter() {
 		this(System.out);
 	}
-	public ConsolePrinter(OutputStream outputStream) {
+	public CsvPrinter(OutputStream outputStream) {
 		this.out = new PrintStream(outputStream, true);
 	}
 	public void printBanner(List<Player> population) {
+		for (Strategy s : population.get(0).getPlayExecutor().getStrategies()) {
+			out.print(s.getClass().getSimpleName());
+			out.print(",");
+		}
+		out.println();
 	}
 	public void printGenerationNumber(int generationNumber) {
-		out.println("Generation " + generationNumber);
+		out.print(generationNumber);
+		out.print(",");
 	}
 	public void printTestResult(List<Player> population) {
 		Collections.sort(population);
-		population.get(0).print(out);
+		out.print(population.get(0).toString());
 		out.println();
 	}
 }
