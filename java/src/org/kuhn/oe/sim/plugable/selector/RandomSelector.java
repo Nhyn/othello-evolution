@@ -5,7 +5,6 @@ import java.util.Random;
 import org.kuhn.oe.game.Player;
 
 public class RandomSelector implements Selector {
-	@Override
 	public Player select(List<Player> population) {
 		return population.get(random.nextInt(population.size()));
 	}

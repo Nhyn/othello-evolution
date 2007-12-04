@@ -6,7 +6,6 @@ import java.util.Random;
 import org.kuhn.oe.game.Player;
 
 public class TopThirdSelector implements Selector {
-	@Override
 	public Player select(List<Player> population) {
 		Collections.sort(population);
 		return population.get(random.nextInt(population.size() / 3));
