@@ -1,8 +1,6 @@
 package org.kuhn.oe.game;
 
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
+import java.io.PrintStream;
 
 
 public class Board {
@@ -171,26 +169,24 @@ public class Board {
 		return buf.toString();
 	}
 	
-	public void print(OutputStream out) throws IOException {
-		OutputStreamWriter writer = new OutputStreamWriter(out);
-		writer.append(" 01234567\r\n");
+	public void print(PrintStream out) {
+		out.println(" 01234567");
 		for (int i = 0; i < 8; ++i) {
-			writer.append(String.valueOf(i));
+			out.print(String.valueOf(i));
 			for (int j = 0; j < 8; ++j) {
 				Color c = getColor(j, i);
 				if (c == Color.BLACK) {
-					writer.append("B");
+					out.print("B");
 				} else if (c == Color.WHITE) {
-					writer.append("W");
+					out.print("W");
 				} else {
-					writer.append("-");
+					out.print("-");
 				}
 			}
-			writer.append("\r\n");
+			out.println();
 		}
 		Score score = getScore();
-		writer.append("black: " + score.getBlack() + ", white: " + score.getWhite() + ", blank: " + score.getNone() + "\r\n");
-		writer.flush();
+		out.print("black: " + score.getBlack() + ", white: " + score.getWhite() + ", blank: " + score.getNone() + "\r\n");
 	}
 	
 	private short index = 0;

@@ -24,6 +24,7 @@ public abstract class SimulationTemplate implements Simulation {
 
 	public final void execute() {
 		List<Player> population = init();
+		printBanner(population);
 		for (int i = 0; i < generationCount; ++i) {
 			printGenerationNumber(i);
 			test(population);
@@ -40,6 +41,7 @@ public abstract class SimulationTemplate implements Simulation {
 	protected abstract Player select(List<Player> population);
 	protected abstract Player breed(Player player);
 	
+	protected abstract void printBanner(List<Player> population);
 	protected abstract void printGenerationNumber(int generationNumber);
 	protected abstract void printTestResult(List<Player> population);
 }
