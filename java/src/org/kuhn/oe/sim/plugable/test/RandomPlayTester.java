@@ -2,12 +2,9 @@ package org.kuhn.oe.sim.plugable.test;
 
 import java.util.List;
 import java.util.Random;
-import org.kuhn.oe.game.Board;
-import org.kuhn.oe.game.GameExecutor;
 import org.kuhn.oe.game.Player;
-import org.kuhn.oe.game.Score;
 
-public class SimpleTester implements Tester {
+public class RandomPlayTester extends AbstractPlayTester {
 	private int gameCountPerGeneration;
 	
 	public void setGameCountPerGeneration(int gameCountPerGeneration) {
@@ -16,9 +13,6 @@ public class SimpleTester implements Tester {
 	
 	@Override
 	public void test(List<Player> population) {
-		Board board = new Board();
-		GameExecutor game = new GameExecutor();
-		
 		for (int i = 0; i < gameCountPerGeneration; ++i) {
 			Player p0 = population.get(random.nextInt(population.size()));
 			Player p1 = population.get(random.nextInt(population.size()));
@@ -26,19 +20,7 @@ public class SimpleTester implements Tester {
 				--i;
 				continue;
 			}
-			
-			game.play(board, p0.getPlayExecutor(), p1.getPlayExecutor());
-			Score score = board.getScore();
-			if (score.getBlack() > score.getWhite()) {
-				p0.win();
-				p1.lose();
-			} else if (score.getBlack() < score.getWhite()) {
-				p0.lose();
-				p1.win();
-			} else {
-				p0.draw();
-				p1.draw();
-			}
+			play(p0, p1);			
 		}
 	}
 	

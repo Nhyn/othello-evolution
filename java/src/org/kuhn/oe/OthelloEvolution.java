@@ -13,7 +13,8 @@ import org.kuhn.oe.sim.plugable.printer.Printer;
 import org.kuhn.oe.sim.plugable.selector.RouletteWheelSelector;
 import org.kuhn.oe.sim.plugable.selector.Selector;
 import org.kuhn.oe.sim.plugable.selector.TopThirdSelector;
-import org.kuhn.oe.sim.plugable.test.SimpleTester;
+import org.kuhn.oe.sim.plugable.test.EqualPlayTester;
+import org.kuhn.oe.sim.plugable.test.RandomPlayTester;
 import org.kuhn.oe.strategy.CaptureLastTurnStrategy;
 import org.kuhn.oe.strategy.CornerStrategy;
 import org.kuhn.oe.strategy.DecisiveWinStrategy;
@@ -49,8 +50,10 @@ public class OthelloEvolution {
 		initializer.setBreeder(new MassMutationBreeder(new SimpleMutator()));
 		
 		// fitness test
-		SimpleTester tester = new SimpleTester();
-		tester.setGameCountPerGeneration(250);
+//		RandomPlayTester tester = new RandomPlayTester();
+//		tester.setGameCountPerGeneration(250);
+		EqualPlayTester tester = new EqualPlayTester();
+		tester.setGameCountPerPlayer(10);
 		
 		// selection
 //		Selector selector = new TopThirdSelector();

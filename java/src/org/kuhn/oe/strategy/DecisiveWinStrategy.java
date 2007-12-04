@@ -11,6 +11,5 @@ public class DecisiveWinStrategy implements Strategy {
 		boolean result = board.getScore().get(color.opponent()) == 0;
 		board.undo();
 		return result;
-		// TODO instead, check that opponent has no valid moves and hasn't won
 	}
 }
