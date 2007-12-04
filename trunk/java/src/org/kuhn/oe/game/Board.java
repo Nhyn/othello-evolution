@@ -139,9 +139,6 @@ public class Board {
 	private Score score = new Score();
 	
 	public Score getScore() {
-		return getScore(index);
-	}
-	private Score getScore(short index) {
 		short black = 0;
 		short white = 0;
 		for (int i = 0; i < 64; ++i) {
