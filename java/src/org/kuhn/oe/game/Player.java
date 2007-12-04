@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 
-public class Player {
+public class Player implements Comparable<Player> {
 	private PlayExecutor playExecutor;
 	
 	public Player(PlayExecutor playExecutor) {
@@ -35,6 +35,23 @@ public class Player {
 	}
 	public int getDraws() {
 		return draws;
+	}
+	public double getFitness() {
+		return wins;
+//		int total = wins + loses + draws;
+//		if (total == 0) return 0.0d;
+//		return (double)wins / (double)total;
+	}
+	@Override
+	public int compareTo(Player o) {
+		double f0 = getFitness();
+		double f1 = o.getFitness();
+		if (f0 < f1)
+			return 1;
+		else if (f0 == f1)
+			return 0;
+		else
+			return -1;
 	}
 	
 	@Override
