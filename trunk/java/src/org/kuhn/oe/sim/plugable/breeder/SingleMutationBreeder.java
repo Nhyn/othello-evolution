@@ -1,11 +1,11 @@
-package org.kuhn.oe.breeder;
+package org.kuhn.oe.sim.plugable.breeder;
 
 
 import java.util.Random;
 
-import org.kuhn.oe.breeder.mutator.Mutator;
 import org.kuhn.oe.game.PlayExecutor;
 import org.kuhn.oe.game.Player;
+import org.kuhn.oe.sim.plugable.breeder.mutator.Mutator;
 
 public class SingleMutationBreeder implements Breeder {
 	private Mutator mutator;

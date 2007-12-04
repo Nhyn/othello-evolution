@@ -3,9 +3,6 @@ package org.kuhn.oe.game;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
-import java.util.Arrays;
-
-import org.kuhn.oe.strategy.Strategy;
 
 public class Player {
 	private PlayExecutor playExecutor;

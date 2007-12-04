@@ -1,5 +1,4 @@
-package org.kuhn.oe.breeder;
-
+package org.kuhn.oe.sim.plugable.breeder;
 
 import org.kuhn.oe.game.Player;
 

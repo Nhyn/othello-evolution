@@ -1,11 +1,11 @@
-package org.kuhn.oe.breeder;
+package org.kuhn.oe.sim.plugable.breeder;
 
-import org.kuhn.oe.breeder.mutator.Mutator;
 import org.kuhn.oe.game.PlayExecutor;
 import org.kuhn.oe.game.Player;
+import org.kuhn.oe.sim.plugable.breeder.mutator.Mutator;
 
 public class MassMutationBreeder implements Breeder {
-	private Mutator mutator;
+	private Mutator	mutator;
 	public MassMutationBreeder(Mutator mutator) {
 		this.mutator = mutator;
 	}
