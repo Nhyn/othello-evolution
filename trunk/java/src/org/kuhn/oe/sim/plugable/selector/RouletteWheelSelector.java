@@ -5,7 +5,6 @@ import java.util.Random;
 import org.kuhn.oe.game.Player;
 
 public class RouletteWheelSelector implements Selector {
-	@Override
 	public Player select(List<Player> population) {
 		double totalFitness = 0.0d;
 		for (Player player : population)

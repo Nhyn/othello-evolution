@@ -6,12 +6,10 @@ import java.util.List;
 import org.kuhn.oe.game.Player;
 
 public class ConsolePrinter implements Printer {
-	@Override
 	public void printGenerationNumber(int generationNumber) {
 		System.out.println("Generation " + generationNumber);
 	}
 
-	@Override
 	public void printTestResult(List<Player> population) {
 		Collections.sort(population);
 		try {

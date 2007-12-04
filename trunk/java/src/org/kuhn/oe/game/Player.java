@@ -42,7 +42,7 @@ public class Player implements Comparable<Player> {
 //		if (total == 0) return 0.0d;
 //		return (double)wins / (double)total;
 	}
-	@Override
+
 	public int compareTo(Player o) {
 		double f0 = getFitness();
 		double f1 = o.getFitness();

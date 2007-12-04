@@ -16,7 +16,6 @@ public class PrototypePlayerInitializer implements Initializer {
 		this.breeder = breeder;
 	}
 
-	@Override
 	public List<Player> initialize(int populationSize) {
 		assert prototypePlayer != null;
 		assert breeder != null;

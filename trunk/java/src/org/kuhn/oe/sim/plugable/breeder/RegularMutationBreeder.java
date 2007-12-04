@@ -12,7 +12,6 @@ public class RegularMutationBreeder implements Breeder {
 		this.frequency = frequency;
 	}
 	
-	@Override
 	public Player breed(Player player) {
 		if (++counter % frequency == 0)
 			return breeder.breed(player);

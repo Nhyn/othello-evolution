@@ -12,7 +12,6 @@ public class EqualPlayTester extends AbstractPlayTester {
 		this.gameCountPerPlayer = gameCountPerPlayer;
 	}
 	
-	@Override
 	public void test(List<Player> population) {
 		for (int i = 0; i < gameCountPerPlayer / 2; ++i) {
 			Collections.shuffle(population, random);

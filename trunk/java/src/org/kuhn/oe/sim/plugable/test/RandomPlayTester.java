@@ -11,7 +11,6 @@ public class RandomPlayTester extends AbstractPlayTester {
 		this.gameCountPerGeneration = gameCountPerGeneration;
 	}
 	
-	@Override
 	public void test(List<Player> population) {
 		for (int i = 0; i < gameCountPerGeneration; ++i) {
 			Player p0 = population.get(random.nextInt(population.size()));
