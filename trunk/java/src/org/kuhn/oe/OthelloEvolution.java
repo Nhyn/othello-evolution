@@ -10,6 +10,7 @@ import org.kuhn.oe.sim.plugable.breeder.mutator.SimpleMutator;
 import org.kuhn.oe.sim.plugable.init.PrototypePlayerInitializer;
 import org.kuhn.oe.sim.plugable.printer.ConsolePrinter;
 import org.kuhn.oe.sim.plugable.printer.Printer;
+import org.kuhn.oe.sim.plugable.selector.RouletteWheelSelector;
 import org.kuhn.oe.sim.plugable.selector.Selector;
 import org.kuhn.oe.sim.plugable.selector.TopThirdSelector;
 import org.kuhn.oe.sim.plugable.test.SimpleTester;
@@ -52,7 +53,8 @@ public class OthelloEvolution {
 		tester.setGameCountPerGeneration(250);
 		
 		// selection
-		Selector selector = new TopThirdSelector();
+//		Selector selector = new TopThirdSelector();
+		Selector selector = new RouletteWheelSelector();
 		
 		// breeder
 		Breeder breeder = new RegularMutationBreeder(new SingleMutationBreeder(new SimpleMutator()), 10);
