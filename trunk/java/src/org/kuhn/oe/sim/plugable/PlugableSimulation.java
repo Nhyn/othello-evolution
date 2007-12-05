@@ -8,9 +8,11 @@ import org.kuhn.oe.sim.plugable.init.Initializer;
 import org.kuhn.oe.sim.plugable.printer.Printer;
 import org.kuhn.oe.sim.plugable.selector.Selector;
 import org.kuhn.oe.sim.plugable.test.Tester;
+import org.kuhn.oe.sim.plugable.terminator.Terminator;
 
 public class PlugableSimulation extends SimulationTemplate {
 	private Initializer	initializer;
+	private Terminator	terminator;
 	private Tester		tester;
 	private Selector	selector;
 	private Breeder		breeder;
@@ -18,6 +20,9 @@ public class PlugableSimulation extends SimulationTemplate {
 
 	public void setInitializer(Initializer initializer) {
 		this.initializer = initializer;
+	}
+	public void setTerminator(Terminator terminator) {
+		this.terminator = terminator;
 	}
 	public void setTester(Tester tester) {
 		this.tester = tester;
@@ -36,6 +41,11 @@ public class PlugableSimulation extends SimulationTemplate {
 	protected List<Player> init() {
 		return initializer.initialize(getPopulationSize());
 	}
+	
+	@Override
+	protected boolean terminate(List<Player> population) {
+		return terminator.terminate(population);
+	}
 
 	@Override
 	protected void test(List<Player> population) {
@@ -53,13 +63,13 @@ public class PlugableSimulation extends SimulationTemplate {
 	}
 	
 	@Override
-	protected void printBanner(List<Player> population) {
-		printer.printBanner(population);
+	protected void printSimulationBanner(List<Player> population) {
+		printer.printSimulationBanner(population);
 	}
 	
 	@Override
-	protected void printGenerationNumber(int generationNumber) {
-		printer.printGenerationNumber(generationNumber);
+	protected void printGenerationHeader(List<Player> population) {
+		printer.printGenerationHeader(population);
 	}
 	
 	@Override

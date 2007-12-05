@@ -14,14 +14,16 @@ public class ConsolePrinter implements Printer {
 	public ConsolePrinter(OutputStream outputStream) {
 		this.out = new PrintStream(outputStream, true);
 	}
-	public void printBanner(List<Player> population) {
+	public void printSimulationBanner(List<Player> population) {
 	}
-	public void printGenerationNumber(int generationNumber) {
-		out.println("Generation " + generationNumber);
+	public void printGenerationHeader(List<Player> population) {
+		out.println("Generation " + ++generationNumber);
 	}
 	public void printTestResult(List<Player> population) {
 		Collections.sort(population);
 		population.get(0).print(out);
 		out.println();
 	}
+	
+	private int generationNumber = 0;
 }

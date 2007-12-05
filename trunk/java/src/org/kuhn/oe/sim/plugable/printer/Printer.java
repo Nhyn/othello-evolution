@@ -4,7 +4,7 @@ import java.util.List;
 import org.kuhn.oe.game.Player;
 
 public interface Printer {
-	void printBanner(List<Player> population);
-	void printGenerationNumber(int generationNumber);
+	void printSimulationBanner(List<Player> population);
+	void printGenerationHeader(List<Player> population);
 	void printTestResult(List<Player> population);
 }
