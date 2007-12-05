@@ -7,7 +7,6 @@ import org.kuhn.oe.game.Player;
 
 public abstract class SimulationTemplate implements Simulation {
 	private int populationSize;
-	private int generationCount;
 
 	public int getPopulationSize() {
 		return populationSize;
@@ -15,18 +14,12 @@ public abstract class SimulationTemplate implements Simulation {
 	public final void setPopulationSize(int populationSize) {
 		this.populationSize = populationSize;
 	}
-	public int getGenerationCount() {
-		return generationCount;
-	}
-	public final void setGenerationCount(int generationCount) {
-		this.generationCount = generationCount;
-	}
 
 	public final void execute() {
 		List<Player> population = init();
-		printBanner(population);
-		for (int i = 0; i < generationCount; ++i) {
-			printGenerationNumber(i);
+		printSimulationBanner(population);
+		while (!terminate(population)) {
+			printGenerationHeader(population);
 			test(population);
 			printTestResult(population);
 			List<Player> nextPopulation = new ArrayList<Player>(populationSize);
@@ -38,10 +31,11 @@ public abstract class SimulationTemplate implements Simulation {
 	
 	protected abstract List<Player> init();
 	protected abstract void test(List<Player> population);
+	protected abstract boolean terminate(List<Player> population);
 	protected abstract Player select(List<Player> population);
 	protected abstract Player breed(Player player);
 	
-	protected abstract void printBanner(List<Player> population);
-	protected abstract void printGenerationNumber(int generationNumber);
+	protected abstract void printSimulationBanner(List<Player> population);
+	protected abstract void printGenerationHeader(List<Player> population);
 	protected abstract void printTestResult(List<Player> population);
 }

@@ -15,16 +15,14 @@ public class CsvPrinter implements Printer {
 	public CsvPrinter(OutputStream outputStream) {
 		this.out = new PrintStream(outputStream, true);
 	}
-	public void printBanner(List<Player> population) {
+	public void printSimulationBanner(List<Player> population) {
 		for (Strategy s : population.get(0).getPlayExecutor().getStrategies()) {
 			out.print(s.getClass().getSimpleName());
 			out.print(",");
 		}
 		out.println();
 	}
-	public void printGenerationNumber(int generationNumber) {
-		out.print(generationNumber);
-		out.print(",");
+	public void printGenerationHeader(List<Player> population) {
 	}
 	public void printTestResult(List<Player> population) {
 		Collections.sort(population);

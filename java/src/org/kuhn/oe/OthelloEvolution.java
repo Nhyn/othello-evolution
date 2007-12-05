@@ -14,6 +14,8 @@ import org.kuhn.oe.sim.plugable.breeder.mutator.Mutator;
 import org.kuhn.oe.sim.plugable.breeder.mutator.SimpleMutator;
 import org.kuhn.oe.sim.plugable.init.Initializer;
 import org.kuhn.oe.sim.plugable.init.PrototypePlayerInitializer;
+import org.kuhn.oe.sim.plugable.terminator.GenerationCountTerminator;
+import org.kuhn.oe.sim.plugable.terminator.Terminator;
 import org.kuhn.oe.sim.plugable.printer.ConsolePrinter;
 import org.kuhn.oe.sim.plugable.printer.CsvPrinter;
 import org.kuhn.oe.sim.plugable.printer.MultiPrinter;
@@ -57,6 +59,9 @@ public class OthelloEvolution {
 		initializer.setPrototypePlayer(new Player(new PlayExecutor(strategies)));
 		initializer.setBreeder(new MassMutationBreeder(SimpleMutator.MAJOR_MUTATOR));
 		
+		// terminator
+		Terminator terminator = new GenerationCountTerminator(1000);
+		
 		// fitness test
 //		RandomPlayTester tester = new RandomPlayTester();
 //		tester.setGameCountPerGeneration(250);
@@ -92,8 +97,8 @@ public class OthelloEvolution {
 		// build simulation and execute
 		PlugableSimulation simulation = new PlugableSimulation();
 		simulation.setPopulationSize(25);
-		simulation.setGenerationCount(1000);
 		simulation.setInitializer(initializer);
+		simulation.setTerminator(terminator);
 		simulation.setTester(tester);
 		simulation.setSelector(selector);
 		simulation.setBreeder(breeder);

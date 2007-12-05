@@ -8,13 +8,13 @@ public class MultiPrinter implements Printer {
 	public MultiPrinter(Printer... printers) {
 		this.printers = printers;
 	}
-	public void printBanner(List<Player> population) {
+	public void printSimulationBanner(List<Player> population) {
 		for (Printer p : printers)
-			p.printBanner(population);
+			p.printSimulationBanner(population);
 	}
-	public void printGenerationNumber(int generationNumber) {
+	public void printGenerationHeader(List<Player> population) {
 		for (Printer p : printers)
-			p.printGenerationNumber(generationNumber);
+			p.printGenerationHeader(population);
 	}
 	public void printTestResult(List<Player> population) {
 		for (Printer p : printers)
