@@ -17,13 +17,34 @@ public class ConsolePrinter implements Printer {
 	public void printSimulationBanner(List<Player> population) {
 	}
 	public void printGenerationHeader(List<Player> population) {
-		out.println("Generation " + ++generationNumber);
+		out.println("Generation " + ++generationNumber + ":");
 	}
 	public void printTestResult(List<Player> population) {
 		Collections.sort(population);
-		population.get(0).print(out);
+		Player player = population.get(0);
+		double max = 0.0;
+		for (double weight : player.getPlayExecutor().getWeights())
+			if (Math.abs(weight) > max)
+				max = Math.abs(weight);
+		out.println();
+		for (int i = 0; i < player.getPlayExecutor().getStrategies().length; ++i) {
+			String name = player.getPlayExecutor().getStrategies()[i].getClass().getSimpleName();
+			double weight = player.getPlayExecutor().getWeights()[i];
+			out.print(String.format("%35s: %+1.2f", name, weight));
+			if (max > 0.0) {
+				String bar = "";
+				int num = (int)((Math.abs(weight) / max) * 40);
+				for (int j = 0; j < num; ++j)
+					bar += "X";
+				out.print(String.format(" %40s | %-40s", weight < 0.0 ? bar : "", weight > 0.0 ? bar : ""));
+			}
+			out.println();
+		}
+		out.println();
+		out.println("     Wins : " + player.getWins());
+		out.println("    Loses : " + player.getLoses());
+		out.println("    Draws : " + player.getDraws());
 		out.println();
 	}
-	
 	private int generationNumber = 0;
 }

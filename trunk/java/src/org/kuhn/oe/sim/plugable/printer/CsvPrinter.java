@@ -16,17 +16,30 @@ public class CsvPrinter implements Printer {
 		this.out = new PrintStream(outputStream, true);
 	}
 	public void printSimulationBanner(List<Player> population) {
+		out.print("generation,");
 		for (Strategy s : population.get(0).getPlayExecutor().getStrategies()) {
 			out.print(s.getClass().getSimpleName());
 			out.print(",");
 		}
-		out.println();
+		out.println("wins,loses,ratio");
 	}
 	public void printGenerationHeader(List<Player> population) {
 	}
 	public void printTestResult(List<Player> population) {
+		out.print(++generationNumber);
+		out.print(",");
 		Collections.sort(population);
-		out.print(population.get(0).toString());
+		Player player = population.get(0);
+		for (double weight : player.getPlayExecutor().getWeights()) {
+			out.print(weight);
+			out.append(",");
+		}
+		out.print(player.getWins());
+		out.print(",");
+		out.print(player.getLoses());
+		out.print(",");
+		out.print(player.getWinLoseRatio());
 		out.println();
 	}
+	private int generationNumber = 0;
 }
