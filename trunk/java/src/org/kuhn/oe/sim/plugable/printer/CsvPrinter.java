@@ -17,7 +17,7 @@ public class CsvPrinter implements Printer {
 	}
 	public void printSimulationBanner(List<Player> population) {
 		out.print("generation,");
-		for (Strategy s : population.get(0).getPlayExecutor().getStrategies()) {
+		for (Strategy s : population.get(0).getStrategies()) {
 			out.print(s.getClass().getSimpleName());
 			out.print(",");
 		}
@@ -30,7 +30,7 @@ public class CsvPrinter implements Printer {
 		out.print(",");
 		Collections.sort(population);
 		Player player = population.get(0);
-		for (double weight : player.getPlayExecutor().getWeights()) {
+		for (double weight : player.getWeights()) {
 			out.print(weight);
 			out.append(",");
 		}

@@ -8,7 +8,7 @@ import org.kuhn.oe.game.Score;
 public abstract class AbstractPlayTester implements Tester {
 	protected void play(Player p0, Player p1) {
 		board.reset();
-		game.play(board, p0.getPlayExecutor(), p1.getPlayExecutor());
+		game.play(board, p0, p1);
 		Score score = board.getScore();
 		if (score.getBlack() > score.getWhite()) {
 			p0.win();

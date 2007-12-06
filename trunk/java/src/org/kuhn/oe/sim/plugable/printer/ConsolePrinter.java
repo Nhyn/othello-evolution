@@ -23,13 +23,13 @@ public class ConsolePrinter implements Printer {
 		Collections.sort(population);
 		Player player = population.get(0);
 		double max = 0.0;
-		for (double weight : player.getPlayExecutor().getWeights())
+		for (double weight : player.getWeights())
 			if (Math.abs(weight) > max)
 				max = Math.abs(weight);
 		out.println();
-		for (int i = 0; i < player.getPlayExecutor().getStrategies().length; ++i) {
-			String name = player.getPlayExecutor().getStrategies()[i].getClass().getSimpleName();
-			double weight = player.getPlayExecutor().getWeights()[i];
+		for (int i = 0; i < player.getStrategies().length; ++i) {
+			String name = player.getStrategies()[i].getClass().getSimpleName();
+			double weight = player.getWeights()[i];
 			out.print(String.format("%35s: %+1.2f", name, weight));
 			if (max > 0.0) {
 				String bar = "";
