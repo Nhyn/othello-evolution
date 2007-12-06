@@ -1,7 +1,7 @@
 import junit.framework.TestCase;
 import org.kuhn.oe.game.Board;
 import org.kuhn.oe.game.GameExecutor;
-import org.kuhn.oe.game.PlayExecutor;
+import org.kuhn.oe.game.Player;
 
 public class PerfTest extends TestCase {
 	public void testAllStrategyPerformanceTest() {
@@ -10,7 +10,7 @@ public class PerfTest extends TestCase {
 		GameExecutor game = new GameExecutor();
 		Board board = new Board();
 		for (int i = 0; i < num; ++i) {
-			game.play(board, PlayExecutor.ALL_STRATEGY_PLAY_EXECUTOR, PlayExecutor.ALL_STRATEGY_PLAY_EXECUTOR);
+			game.play(board, Player.ALL_STRATEGY_PLAYER, Player.ALL_STRATEGY_PLAYER);
 		}
 		System.out.print("all strategies: ");
 		System.out.print(((double)num / (double)(System.currentTimeMillis() - start)) * 1000);
@@ -31,7 +31,7 @@ public class PerfTest extends TestCase {
 		GameExecutor game = new GameExecutor();
 		Board board = new Board();
 		for (int i = 0; i < num; ++i) {
-			game.play(board, PlayExecutor.NO_STRATEGY_PLAY_EXECUTOR, PlayExecutor.NO_STRATEGY_PLAY_EXECUTOR);
+			game.play(board, Player.NO_STRATEGY_PLAYER, Player.NO_STRATEGY_PLAYER);
 		}
 		System.out.print("no strategies: ");
 		System.out.print(((double)num / (double)(System.currentTimeMillis() - start)) * 1000);

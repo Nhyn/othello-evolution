@@ -2,7 +2,7 @@ package org.kuhn.oe.game;
 
 
 public class GameExecutor {
-	public void play(Board board, PlayExecutor black, PlayExecutor white) {
+	public void play(Board board, Player black, Player white) {
 		board.reset();
 		Color color = Color.BLACK;
 		boolean pass = false;
@@ -12,7 +12,6 @@ public class GameExecutor {
 				playResult = black.play(board, color);
 			else
 				playResult = white.play(board, color);
-			
 			if (playResult) {
 				pass = false;
 			} else {
@@ -20,14 +19,7 @@ public class GameExecutor {
 					break;
 				pass = true;
 			}
-			
 			color = color.opponent();
 		}
-		
-		++count;
 	}
-	public int getCount() {
-		return count;
-	}
-	int count = 0;
 }

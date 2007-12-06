@@ -1,6 +1,5 @@
 package org.kuhn.oe;
 import java.io.FileOutputStream;
-import org.kuhn.oe.game.PlayExecutor;
 import org.kuhn.oe.game.Player;
 import org.kuhn.oe.sim.plugable.PlugableSimulation;
 import org.kuhn.oe.sim.plugable.breeder.Breeder;
@@ -56,7 +55,7 @@ public class OthelloEvolution {
 		new RandomizationStrategy()
 		};
 		PrototypePlayerInitializer initializer = new PrototypePlayerInitializer();
-		initializer.setPrototypePlayer(new Player(new PlayExecutor(strategies)));
+		initializer.setPrototypePlayer(new Player(strategies));
 		initializer.setBreeder(new MassMutationBreeder(SimpleMutator.MAJOR_MUTATOR));
 		
 		// terminator
